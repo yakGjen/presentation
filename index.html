@@ -1,0 +1,239 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>reveal.js</title>
+
+		<link rel="stylesheet" href="css/reset.css">
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/black.css">
+		
+		<link rel="stylesheet" href="./css/my-styles.css">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/monokai.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section>
+				  <h1>Angular, what is it?</h1>
+				  <img src="./assets/angular.png" alt="angular">
+				</section>
+				<section>
+          <a href="https://github.com/angular/angular">
+            https://github.com/angular/angular
+          </a>
+          <a href="https://angular.io/">
+            https://angular.io/
+          </a>
+        </section>
+        <section>
+          npm i @angular/cli –g
+        </section>
+        <section>
+          ng new new-App
+        </section>
+        <section>
+         <p>Most used commands:</p>
+          <ul>
+            <li>class</li>
+            <li>component</li>
+            <li>directive</li>
+            <li>pipe</li>
+            <li>service</li>
+            <li>guard</li>
+            <li>module</li>
+          </ul>
+        </section>
+        <section>
+          <p>Example:</p>
+          <p>ng generate component name</p>
+          <p>ng g c name</p>
+        </section>
+        <section>
+         <p>Module</p>
+          <pre>
+            import {BrowserModule} from '@angular/platform-browser';
+            import {NgModule} from '@angular/core';
+    
+            import {AppComponent} from './app.component';
+    
+            @NgModule({
+              declarations: [
+                AppComponent
+              ],
+              imports: [
+                BrowserModule
+              ],
+              providers: [],
+              bootstrap: [AppComponent]
+            })
+
+            export class AppModule {}
+          </pre>
+        </section>
+        <section>
+          <p>Component</p>
+          <pre>
+            @Component({
+              selector: 'app-root',
+              templateUrl: './app.component.html',
+              styleUrls: ['./app.component.css']
+            })
+
+            export class AppComponent {
+              title = 'app';
+            }
+          </pre>
+        </section>
+        <section>
+          <p>Service</p>
+          <pre>
+            import {HttpClient} from '@angular/common/http';
+            import {Injectable} from '@angular/core';
+
+            @Injectable()
+
+            export class BaseApi {
+              private baseUrl = 'http://localhost:3000/';
+
+              constructor(public http: HttpClient) {}
+
+              private getUrl(url: string = ''): string {
+                return this.baseUrl + url;
+              }
+
+              public get(url: string = '') {
+                return this.http.get(this.getUrl(url));
+              }
+            }
+          </pre>
+        </section>
+        <section>
+          <p>Structural directives</p>
+          <ul>
+            <li>*ngFor</li>
+            <li>*ngIf</li>
+            <li>ngSwitch</li>
+            <li>ngStyle</li>
+            <li>ngClass</li>
+          </ul>
+        </section>
+        <section>
+          <p>Own directive</p>
+          <pre>
+            import {Directive, HostBinding, HostListener} from '@angular/core';
+
+            @Directive({
+              selector: '[wfmDropdown]'
+            })
+
+            export class DropdownDirective {
+              @HostBinding('class.open') isOpen = false;
+
+              @HostListener('click') onClick() {
+                this.isOpen = !this.isOpen;
+              }
+            }
+          </pre>
+        </section>
+        <section>
+          <p>Interpolation</p>
+          <ul>
+            <li>Hello, {{ name }}</li>
+            <li>{{ 'Hello,' + name }}</li>
+            <li>{{ printGreeting() }}</li>
+          </ul>
+          <pre>
+            export class HelloWorldComponent {
+              name = 'World';
+    
+              printGreeting(hero: Hero): string{
+                return 'Hello,' + this.name;
+              }
+            }
+          </pre>
+        </section>
+        <section>
+          <p>One-way-binding</p>
+          <p>&lt;a&gt; [href]="homePageUrl">Home Page&lt;/a&gt;</p>
+        </section>
+        <section>
+          <p>Events:</p>
+          <p>&lt;button (click)="fn()"&gt;&lt;/button&gt;</p>
+          <p>&lt;button (click)="fn($event)"&gt;&lt;/button&gt;</p>
+        </section>
+        <section>
+         <p>Two-way-binding</p>
+          <pre>
+            @Component({
+              selector: 'contacts',
+              template: `&lt;contacts-item [(name)] = "contactPerson"&gt;&lt;/contacts-item&gt;
+                        &lt;p&gt;{{ contactPerson }}&lt;/p&gt;`
+            })
+    
+            export class ContactsComponent {
+              contactPerson: string;
+      
+              constructor(){}
+            }
+          </pre>
+        </section>
+        <section>
+          <p>Directive for two-way-binding a form</p>
+          <p>&lt;input type="text" [(ngModel)]="contactPerson"&gt;</p>
+        </section>
+        <section>
+          <p>Pipe</p>
+          <pre>
+            @Component({
+              selector: 'date-pipe-example',
+              template: `&lt;p&gt;Transformed date: {{ exampleDate | date : 'dd.MM.yyyy' }}&lt;/p&gt;`
+            })
+
+            export class DatePipeExampleComponent {
+              exampleDate = new Date(2000, 12, 12);
+            }
+          </pre>
+        </section>
+        <section>
+          <p>Some libraries for working with components:</p>
+          <ul>
+            <li>@angular/forms</li>
+            <li>@angular/router</li>
+            <li>@angular/common/http</li>
+            <li>@angular/platform-browser/animations</li>
+          </ul>
+        </section>
+			</div>
+		</div>
+
+		<script src="js/reveal.js"></script>
+
+		<script>
+			// More info about config & dependencies:
+			// - https://github.com/hakimel/reveal.js#configuration
+			// - https://github.com/hakimel/reveal.js#dependencies
+			Reveal.initialize({
+				dependencies: [
+					{ src: 'plugin/markdown/marked.js' },
+					{ src: 'plugin/markdown/markdown.js' },
+					{ src: 'plugin/notes/notes.js', async: true },
+					{ src: 'plugin/highlight/highlight.js', async: true }
+				]
+			});
+		</script>
+	</body>
+</html>

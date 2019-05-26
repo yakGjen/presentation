@@ -1,0 +1,11 @@
+.slides h1 {
+  font-size: 90%;
+}
+
+.slides img {
+  width: 50%;
+}
+
+.slides a {
+  display: block;
+}
